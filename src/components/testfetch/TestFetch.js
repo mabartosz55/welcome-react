@@ -3,35 +3,53 @@ class TestFetch extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentCharacter: {}
+            currentCharacter: {},
+            currentNumber: 1
         }
     }
     componentDidMount() {
         this.myTestFetch()
+        // console.log("hello from component did mount")
     }
     myTestFetch() {
-        fetch("https://swapi.dev/api/people/15")
-            .then(res => res.json())
-            .then(characterJSON => {
-                this.setState({ currentCharacter: characterJSON })
+        fetch("https://swapi.dev/api/people/" + this.state.currentNumber)
+            .then(response => {
+                return response.json()
+            }).then(characterData => {
+                console.log(characterData)
+                this.setState({ currentCharacter: characterData })
+            }).catch((error)=>{
+                console.log(error)
             })
     }
+    clickHandler = () => {
+        console.log("hello")
+        this.setState((prevState, props) => {
+            return { currentNumber: prevState.currentNumber + 1 }
+        }, this.myTestFetch)
+    }
     render() {
-        return (
+        let element = (
             <div className="TestFetch">
-                Name: {this.state.currentCharacter.name}
-                <br/> 
-                Height: {this.state.currentCharacter.height}
-                <br/>
-                Weight: {this.state.currentCharacter.mass}
-                <br/> 
-                Gender: {this.state.currentCharacter.gender}
-                <br/> 
-                Species: {this.state.currentCharacter.species}
-                <br/>
-                Skin Color: {this.state.currentCharacter.skin_color}
-                <br/> 
+                LOADING...
             </div>
+        )
+        if (this.state.currentCharacter.films !== undefined) {
+            element = (
+                <div className="TestFetch">
+                    Name: {this.state.currentCharacter.name}
+                    <br />
+                    Height: {this.state.currentCharacter.height}
+                    <br />
+                    Films: {this.state.currentCharacter.films.map((filmURL, index)=>{
+                        return <div key={index}>{filmURL}</div>
+                    })}
+                    <button onClick={this.clickHandler}>Next Character</button>
+                </div>
+            )
+        }
+        return (
+            element
         )
     }
 }

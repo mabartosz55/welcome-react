@@ -6,8 +6,9 @@ import './App.css';
 import Welcome from "./components/welcome/Welcome";
 import Clock from "./components/welcome/clock/Clock";
 import Contact from "./components/contact/Contact";
-import NoMatch from "./components/404 page/NoMatch"
-import TestFetch from "./components/testfetch/TestFetch"
+import NoMatch from "./components/404 page/NoMatch";
+import TestFetch from "./components/testfetch/TestFetch";
+import Jeopardy from "./components/jeopardy/Jeopardy";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           path="/"
           render={(props) => <Welcome {...props} name="Michael" />}
         />
+        <Route path="/jeopardy" component={Jeopardy} />
         <Route path="/testFetch" component={TestFetch} />
         <Route path="/clock" component={Clock} />
         <Route path="/contact" component={Contact} />
